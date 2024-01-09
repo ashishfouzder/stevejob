@@ -18,6 +18,7 @@ use App\Http\Controllers\ApiController;
 Route::get('candidates',[ApiController::class,'candidates']);
 Route::post('employer_application','ApiController@employer_application');
 Route::get('employer_application_list',[ApiController::class,'employer_application_list']);
+Route::post('employer_application_delete','ApiController@employer_application_delete');
 
 // Route::middleware('auth:api')->get('/user', function (Request $request) {
 //     return $request->user();

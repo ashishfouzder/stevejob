@@ -129,4 +129,34 @@ class ApiController extends Controller
         }
         echo "]}"; 
     }
+
+    public function employer_application_delete()
+    {
+        $jsonData = file_get_contents('php://input');
+        $post = json_decode(file_get_contents('php://input'), TRUE);
+
+        date_default_timezone_set('Asia/Dhaka');
+        $date=date('Y-m-d', strtotime('-0 day'));
+
+        if($jsonData=="")
+        {
+            $result=array(
+                'result'=>'invalid request'
+            );
+            echo json_encode($result);
+        }
+        else
+        {
+            $application_id=$post['application_id'];
+            $employer_id=$post['employer_id'];
+            DB::table('stevejob_employer_application')->where('id', $application_id AND 'employer_id', $employer_id)->delete();
+
+            $PreviewData=array(
+                'result'=>"success",
+            );
+            echo  json_encode($PreviewData, JSON_UNESCAPED_SLASHES);
+        }
+
+    }
+
 }

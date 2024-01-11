@@ -159,4 +159,51 @@ class ApiController extends Controller
 
     }
 
+    public function employer_application_edit()
+    { 
+        $jsonData = file_get_contents('php://input');
+        $post = json_decode(file_get_contents('php://input'), TRUE);
+
+        date_default_timezone_set('Asia/Dhaka');
+        $date=date('Y-m-d', strtotime('-0 day'));
+        $time=date('H:i:s', strtotime('-0 day'));
+
+        if($jsonData=="")
+        {
+            $result=array(
+                'result'=>'invalid request'
+            );
+            echo json_encode($result);
+        }
+        else
+        {
+            $application_id=$post['application_id'];
+            $employer_id=$post['employer_id'];
+            $title=$post['title'];
+            $vacancy=$post['vacancy'];
+            $job_responsibilities=$post['job_responsibilities'];
+            $employment_status=$post['employment_status'];
+            $workplace=$post['workplace'];
+            $educational_requirements=$post['educational_requirements'];
+            $experience_requirements=$post['experience_requirements'];
+            $additional_requirements=$post['additional_requirements'];
+            $job_location=$post['job_location'];
+            $salary=$post['salary'];
+            $compensation_and_other_benefits=$post['compensation_and_other_benefits'];
+
+            DB::table('stevejob_employer_application')
+            ->where('id', $application_id)
+            ->where('employer_id', $employer_id)
+            ->update(['title' => $title, 'vacancy' => $vacancy, 'job_responsibilities' => $job_responsibilities, 'employment_status' => $employment_status, 'workplace' => $workplace, 'educational_requirements' => $educational_requirements, 'experience_requirements' => $experience_requirements, 'additional_requirements' => $additional_requirements, 'job_location' => $job_location, 'salary' => $salary, 'compensation_benefits' => $compensation_and_other_benefits]);
+            
+            $PreviewData=array(
+                'result'=>"success",
+            );
+            echo  json_encode($PreviewData, JSON_UNESCAPED_SLASHES);
+        
+        }
+
+    }
+
+
 }
